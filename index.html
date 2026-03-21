@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BotFlix — Seu assistente de cinema AI. Descreva seu humor e receba recomendações de filmes perfeitas, curadas por inteligência artificial." />
+  <meta name="theme-color" content="#E50914" />
+  <title>BotFlix | Seu Assistente de Cinema AI</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/x-icon" href="img/mascot.webp">
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- ============ HEADER (fora do card) ============ -->
+    <header class="header" id="header">
+      <div class="mascot-wrapper">
+        <img
+          id="mascot"
+          src="img/mascot.webp"
+          alt="BotFlix — Mascote robô cinéfilo"
+        />
+      </div>
+      <h1 class="header-title">BotFlix</h1>
+      <p class="header-subtitle">
+        Seu assistente pessoal de cinema com inteligência artificial.
+        Diga o como você está se sentindo ou o que quer assistir.
+      </p>
+    </header>
+
+    <!-- ============ MAIN CARD (Glassmorphism) ============ -->
+    <main class="main-card" id="main-card">
+
+      <label class="input-label" for="user-prompt">
+        O que você quer assistir hoje?
+      </label>
+
+      <textarea
+        id="user-prompt"
+        class="prompt-textarea"
+        placeholder="Ex.: Quero um filme de ficção científica sombrio, com reviravoltas de tirar o fôlego…"
+        rows="5"
+      ></textarea>
+
+      <!-- Chips de exemplo -->
+      <div class="chips-container" id="chips-container">
+        <button class="chip" data-prompt="Quero um filme de terror psicológico que me faça pensar por dias">
+          🎃 Terror psicológico
+        </button>
+        <button class="chip" data-prompt="Preciso de uma comédia romântica leve e divertida para assistir a dois">
+          💕 Comédia romântica
+        </button>
+        <button class="chip" data-prompt="Quero ficção científica com viagens no tempo e reviravoltas inteligentes">
+          🚀 Ficção científica
+        </button>
+      </div>
+
+      <!-- CTA Button -->
+      <button class="cta-button" id="cta-button" type="button">
+        <span class="btn-icon">🎬</span> Encontrar Filmes Perfeitos
+      </button>
+
+      <!-- Loading State -->
+      <div class="loading-container" id="loading-container">
+        <div class="ai-pulse"></div>
+        <p class="loading-text">
+          Nosso curador está analisando<span class="loading-dots"></span>
+        </p>
+        <div class="skeleton-container">
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div class="error-container" id="error-container">
+        <p>😔 Ops! Algo deu errado ao buscar sua recomendação. Verifique sua conexão e tente novamente.</p>
+        <button class="retry-button" id="retry-button" type="button">Tentar Novamente</button>
+      </div>
+
+    </main>
+
+    <!-- ============ RESULT SECTION ============ -->
+    <section class="result-section" id="result-section">
+      <article class="result-card" id="result-card">
+        <div class="result-card-inner">
+
+          <!-- Poster -->
+          <div class="poster-wrapper">
+            <img
+              class="poster-img"
+              id="result-poster"
+              src=""
+              alt="Poster do filme recomendado"
+            />
+          </div>
+
+          <!-- Info -->
+          <div class="movie-info">
+            <h2 class="movie-title" id="result-title"></h2>
+
+            <div class="movie-meta">
+              <span class="meta-badge year" id="result-year"></span>
+              <span class="meta-badge" id="result-genre"></span>
+            </div>
+
+            <p class="movie-synopsis" id="result-synopsis"></p>
+
+            <!-- Why Watch -->
+            <div class="why-watch">
+              <p class="why-watch-label">
+                <span class="icon">✨</span> Por que assistir agora?
+              </p>
+              <p class="why-watch-text" id="result-why-watch"></p>
+            </div>
+
+            <!-- ✅ NOVO: Onde Assistir -->
+            <div id="streaming-section" class="streaming-section">
+              <p class="streaming-title">
+                <span class="icon">📺</span> Onde Assistir
+              </p>
+              <div id="streaming-logos" class="streaming-logos"></div>
+            </div>
+
+          </div>
+
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+      © 2026 <span>BotFlix</span> AI — The Cinematic Curator.
+    </footer>
+
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

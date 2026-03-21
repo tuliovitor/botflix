@@ -1,0 +1,865 @@
+/* ===================================================
+   BotFlix — The Cinematic Curator
+   Design System: Dark + Red (#E50914) + Glassmorphism
+   Fonts: Noto Serif (headlines) + Manrope (body/labels)
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* ---------- CSS Custom Properties ---------- */
+:root {
+  /* Surfaces */
+  --surface:                 #131313;
+  --surface-dim:             #131313;
+  --surface-bright:          #3a3939;
+  --surface-container-lowest:#0e0e0e;
+  --surface-container-low:   #1c1b1b;
+  --surface-container:       #201f1f;
+  --surface-container-high:  #2a2a2a;
+  --surface-container-highest:#353534;
+
+  /* Primary (Red) */
+  --primary:                 #ffb4aa;
+  --primary-container:       #e50914;
+  --on-primary:              #690003;
+  --on-primary-container:    #fff7f6;
+
+  /* Secondary (Neutral) */
+  --secondary:               #c8c6c5;
+  --on-surface:              #e5e2e1;
+  --on-surface-variant:      #e9bcb6;
+  --outline:                 #af8782;
+  --outline-variant:         #5e3f3b;
+
+  /* Functional */
+  --tertiary:                #a7c8ff;
+  --tertiary-container:      #0072d7;
+
+  /* Spacing scale (base 4px × factor 3) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Radii */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background: var(--surface);
+  color: var(--on-surface);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ---------- Atmospheric Background ---------- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(229, 9, 20, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(229, 9, 20, 0.06) 0%, transparent 60%),
+    linear-gradient(180deg, #0e0e0e 0%, #131313 40%, #1a0a0a 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Subtle film-grain texture overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ---------- Page Wrapper ---------- */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: var(--sp-6);
+  gap: var(--sp-10);
+}
+
+/* ---------- Header (Outside Card) ---------- */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-5);
+  padding-top: var(--sp-16);
+  animation: headerFadeIn 1s var(--ease-out-expo) both;
+}
+
+@keyframes headerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mascot Logo */
+.mascot-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.mascot-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.5) 0%, rgba(229, 9, 20, 0) 70%);
+  animation: mascotPulse 3s ease-in-out infinite;
+}
+
+@keyframes mascotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%      { transform: scale(1.15); opacity: 1; }
+}
+
+#mascot {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  box-shadow:
+    0 0 30px rgba(229, 9, 20, 0.4),
+    0 0 60px rgba(229, 9, 20, 0.15);
+  border: 2px solid rgba(229, 9, 20, 0.3);
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s ease;
+}
+
+#mascot:hover {
+  transform: scale(1.08) rotate(3deg);
+  box-shadow:
+    0 0 40px rgba(229, 9, 20, 0.6),
+    0 0 80px rgba(229, 9, 20, 0.25);
+}
+
+/* Title */
+.header-title {
+  font-family: 'Noto Serif', serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff 0%, var(--primary) 50%, var(--primary-container) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+
+.header-subtitle {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--secondary);
+  text-align: center;
+  max-width: 420px;
+  line-height: 1.6;
+}
+
+/* ---------- Main Card (Glassmorphism) ---------- */
+.main-card {
+  width: 100%;
+  max-width: 680px;
+  background: rgba(32, 31, 31, 0.6);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-radius: var(--radius-2xl);
+  padding: var(--sp-10) var(--sp-8);
+  border: 1px solid rgba(229, 9, 20, 0.08);
+  box-shadow:
+    0 12px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: cardSlideUp 0.8s 0.3s var(--ease-out-expo) both;
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Input Label */
+.input-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-3);
+  display: block;
+}
+
+/* Textarea */
+.prompt-textarea {
+  width: 100%;
+  min-height: 130px;
+  padding: var(--sp-5);
+  background: rgba(53, 53, 52, 0.7);
+  border: 1px solid transparent;
+  border-radius: var(--radius-xl);
+  color: var(--on-surface);
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  resize: vertical;
+  transition: all 0.35s var(--ease-out-expo);
+  outline: none;
+}
+
+.prompt-textarea::placeholder {
+  color: rgba(200, 198, 197, 0.4);
+}
+
+.prompt-textarea:focus {
+  background: var(--surface-bright);
+  border-color: rgba(229, 9, 20, 0.3);
+  box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.1), 0 0 20px rgba(229, 9, 20, 0.06);
+}
+
+/* ---------- Chips ---------- */
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+  margin-bottom: var(--sp-8);
+}
+
+.chip {
+  padding: var(--sp-2) var(--sp-4);
+  background: rgba(53, 53, 52, 0.5);
+  border: 1px solid rgba(94, 63, 59, 0.25);
+  border-radius: var(--radius-pill);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out-expo);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  background: rgba(229, 9, 20, 0.15);
+  border-color: rgba(229, 9, 20, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(229, 9, 20, 0.1);
+}
+
+.chip:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* ---------- Primary CTA Button ---------- */
+.cta-button {
+  width: 100%;
+  padding: var(--sp-4) var(--sp-8);
+  background: linear-gradient(135deg, var(--primary-container) 0%, #b80710 100%);
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--on-primary-container);
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.35s var(--ease-out-expo);
+  position: relative;
+  overflow: hidden;
+  text-transform: none;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 30px rgba(229, 9, 20, 0.35),
+    0 0 60px rgba(229, 9, 20, 0.12);
+}
+
+.cta-button:hover::before {
+  opacity: 1;
+}
+
+.cta-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.cta-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Icon inside button */
+.cta-button .btn-icon {
+  margin-right: var(--sp-2);
+  font-size: 1.25rem;
+  vertical-align: middle;
+}
+
+/* ---------- Loading States ---------- */
+.loading-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-6);
+  padding: var(--sp-12) 0;
+  animation: fadeIn 0.5s ease both;
+}
+
+.loading-container.active {
+  display: flex;
+}
+
+/* AI Intelligence Pulse Spinner */
+.ai-pulse {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.ai-pulse::before,
+.ai-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.ai-pulse::before {
+  background: radial-gradient(circle, var(--primary) 0%, var(--primary-container) 50%, transparent 70%);
+  animation: pulseExpand 1.8s ease-in-out infinite;
+}
+
+.ai-pulse::after {
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.6) 0%, transparent 60%);
+  animation: pulseExpand 1.8s 0.9s ease-in-out infinite;
+}
+
+@keyframes pulseExpand {
+  0% {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+.loading-text {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--secondary);
+  letter-spacing: 0.02em;
+}
+
+.loading-dots::after {
+  content: '';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%  { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+}
+
+/* Skeleton loader lines */
+.skeleton-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.skeleton-line {
+  height: 14px;
+  background: linear-gradient(
+    90deg,
+    var(--surface-container-high) 0%,
+    var(--surface-bright) 50%,
+    var(--surface-container-high) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-line:nth-child(1) { width: 90%; }
+.skeleton-line:nth-child(2) { width: 75%; }
+.skeleton-line:nth-child(3) { width: 60%; }
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---------- Result Card ---------- */
+.result-section {
+  display: none;
+  width: 100%;
+  max-width: 680px;
+  animation: resultFadeIn 0.8s var(--ease-out-expo) both;
+}
+
+.result-section.active {
+  display: block;
+}
+
+@keyframes resultFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.result-card {
+  background: rgba(28, 27, 27, 0.8);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  border: 1px solid rgba(229, 9, 20, 0.08);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(229, 9, 20, 0.05);
+}
+
+.result-card-inner {
+  display: flex;
+  gap: var(--sp-8);
+  padding: var(--sp-8);
+}
+
+/* Movie Poster */
+.poster-wrapper {
+  flex-shrink: 0;
+  width: 200px;
+  position: relative;
+}
+
+.poster-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 -40px 40px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.poster-img {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  display: block;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+
+.poster-img:hover {
+  transform: scale(1.03);
+}
+
+/* Movie Info */
+.movie-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+
+.movie-title {
+  font-family: 'Noto Serif', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.movie-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.meta-badge {
+  padding: var(--sp-1) var(--sp-3);
+  background: rgba(229, 9, 20, 0.15);
+  border-radius: var(--radius-pill);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.03em;
+}
+
+.meta-badge.year {
+  background: rgba(53, 53, 52, 0.6);
+  color: var(--secondary);
+}
+
+.movie-synopsis {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--secondary);
+  line-height: 1.7;
+}
+
+/* Why Watch Section */
+.why-watch {
+  margin-top: var(--sp-4);
+  padding: var(--sp-5);
+  background: rgba(229, 9, 20, 0.06);
+  border-radius: var(--radius-xl);
+  border-left: 3px solid var(--primary-container);
+}
+
+.why-watch-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--sp-2);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.why-watch-label .icon {
+  font-size: 1rem;
+}
+
+.why-watch-text {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--on-surface);
+  line-height: 1.7;
+}
+
+/* ✅ NOVO — Streaming / Onde Assistir */
+.streaming-section {
+  display: none;
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  animation: fadeIn 0.5s ease both;
+}
+
+.streaming-section.active {
+  display: block;
+}
+
+.streaming-title {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.streaming-logos {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.streaming-logos a {
+  display: block;
+  border-radius: var(--radius-lg);
+  transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s ease;
+  position: relative;
+}
+
+.streaming-logos a::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  background: rgba(20, 20, 20, 0.95);
+  color: var(--secondary);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.streaming-logos a:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.streaming-logos a:hover {
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.streaming-logos img {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ---------- Error State ---------- */
+.error-container {
+  display: none;
+  padding: var(--sp-6);
+  background: rgba(147, 0, 10, 0.1);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 180, 171, 0.15);
+  text-align: center;
+  animation: fadeIn 0.4s ease both;
+}
+
+.error-container.active {
+  display: block;
+}
+
+.error-container p {
+  font-size: 0.9375rem;
+  color: var(--primary);
+  line-height: 1.6;
+}
+
+.retry-button {
+  margin-top: var(--sp-4);
+  padding: var(--sp-2) var(--sp-6);
+  background: transparent;
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  border-radius: var(--radius-md);
+  color: var(--primary);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+  background: rgba(229, 9, 20, 0.1);
+  border-color: var(--primary-container);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  padding: var(--sp-10) 0 var(--sp-6);
+  text-align: center;
+  color: rgba(200, 198, 197, 0.35);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.footer span {
+  color: var(--primary-container);
+}
+
+/* ---------- Utility: Fade-in ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: var(--sp-4);
+    gap: var(--sp-8);
+  }
+
+  .header {
+    padding-top: var(--sp-10);
+  }
+
+  .header-title {
+    font-size: 2.5rem;
+  }
+
+  .header-subtitle {
+    font-size: 1rem;
+    padding: 0 var(--sp-2);
+  }
+
+  .mascot-wrapper {
+    width: 96px;
+    height: 96px;
+  }
+
+  #mascot {
+    width: 96px;
+    height: 96px;
+  }
+
+  .main-card {
+    padding: var(--sp-6) var(--sp-5);
+    border-radius: var(--radius-xl);
+  }
+
+  .prompt-textarea {
+    min-height: 110px;
+    font-size: 0.9375rem;
+  }
+
+  .chips-container {
+    gap: var(--sp-2);
+  }
+
+  .chip {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+  }
+
+  .result-card-inner {
+    flex-direction: column;
+    padding: var(--sp-5);
+    gap: var(--sp-5);
+  }
+
+  .poster-wrapper {
+    width: 100%;
+  }
+
+  .poster-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2/3;
+  }
+
+  .movie-title {
+    font-size: 1.375rem;
+  }
+
+  .cta-button {
+    font-size: 1rem;
+    padding: var(--sp-4) var(--sp-6);
+  }
+
+  .streaming-logos img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 420px) {
+  .header-title {
+    font-size: 2rem;
+  }
+
+  .mascot-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+
+  #mascot {
+    width: 80px;
+    height: 80px;
+  }
+
+  .main-card {
+    padding: var(--sp-5) var(--sp-4);
+  }
+
+  .chips-container {
+    flex-direction: column;
+  }
+
+  .chip {
+    text-align: center;
+  }
+}
